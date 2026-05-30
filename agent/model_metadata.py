@@ -200,8 +200,9 @@ DEFAULT_CONTEXT_LENGTHS = {
     "qwen3-coder-plus": 1000000,  # 1M context
     "qwen3-coder": 262144,        # 256K context
     "qwen": 131072,
-    # MiniMax — official docs: 204,800 context for all models
+    # MiniMax — official docs: 204,800 context for M2.x; M3 supports 512K
     # https://platform.minimax.io/docs/api-reference/text-anthropic-api
+    "MiniMax-M3": 512000,  # M3: 512K context, multimodal
     "minimax": 204800,
     # GLM
     "glm": 202752,
@@ -240,7 +241,6 @@ DEFAULT_CONTEXT_LENGTHS = {
     "moonshotai/Kimi-K2.5": 262144,
     "moonshotai/Kimi-K2.6": 262144,
     "moonshotai/Kimi-K2-Thinking": 262144,
-    "MiniMaxAI/MiniMax-M2.5": 204800,
     "XiaomiMiMo/MiMo-V2-Flash": 262144,
     "mimo-v2-pro": 1048576,
     "mimo-v2.5-pro": 1048576,

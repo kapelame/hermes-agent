@@ -15,8 +15,8 @@ class TestMinimaxContextLengths:
 
     def test_minimax_models_resolve_via_prefix(self):
         from agent.model_metadata import get_model_context_length
-        # All MiniMax models should resolve to 204,800 via the "minimax" prefix
-        for model in ("MiniMax-M2.7", "MiniMax-M2.5", "MiniMax-M2.1", "MiniMax-M2"):
+        # M2.7 resolves to 204,800 via the "minimax" prefix (M3 has its own 512K entry)
+        for model in ("MiniMax-M2.7",):
             ctx = get_model_context_length(model, "")
             assert ctx == 204_800, f"{model} expected 204800, got {ctx}"
 
@@ -46,10 +46,10 @@ class TestMinimaxThinkingSupport:
         # MiniMax should NOT get adaptive thinking or output_config
         assert "output_config" not in kwargs
 
-    def test_minimax_m25_gets_manual_thinking(self):
+    def test_minimax_m3_gets_manual_thinking(self):
         from agent.anthropic_adapter import build_anthropic_kwargs
         kwargs = build_anthropic_kwargs(
-            model="MiniMax-M2.5",
+            model="MiniMax-M3",
             messages=[{"role": "user", "content": "hello"}],
             tools=None,
             max_tokens=4096,
@@ -225,13 +225,9 @@ class TestMinimaxMaxOutput:
         from agent.anthropic_adapter import _get_anthropic_max_output
         assert _get_anthropic_max_output("MiniMax-M2.7") == 131_072
 
-    def test_minimax_m25_output_limit(self):
+    def test_minimax_m3_output_limit(self):
         from agent.anthropic_adapter import _get_anthropic_max_output
-        assert _get_anthropic_max_output("MiniMax-M2.5") == 131_072
-
-    def test_minimax_m2_output_limit(self):
-        from agent.anthropic_adapter import _get_anthropic_max_output
-        assert _get_anthropic_max_output("MiniMax-M2") == 131_072
+        assert _get_anthropic_max_output("MiniMax-M3") == 131_072
 
     def test_claude_output_unaffected(self):
         from agent.anthropic_adapter import _get_anthropic_max_output
